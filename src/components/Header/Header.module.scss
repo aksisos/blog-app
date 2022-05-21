@@ -1,0 +1,70 @@
+.blog_header {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding-left: 22px;
+    padding-right: 22px;
+    font-size: 18px;
+    & button {
+        margin-right: 19px;
+        & a {
+            color: black;
+            &:hover {
+                color: blue;
+            }
+        }
+    }
+}
+
+.sign_up_button {
+    width: 109px;
+    height: 51px;
+    border: 1px solid #52c41a;
+    border-radius: 5px;
+    &:hover {
+        background-color: #eff0f3;
+    }
+    &:hover a {
+        color: blue;
+    }
+}
+
+.flex_wrapper {
+    display: flex;
+    align-items: center;
+
+    & .user_image {
+        width: 46px;
+        height: 46px;
+        margin-left: 10px;
+        margin-right: 27px;
+    }
+    & .log_out_button {
+        margin-right: 0px;
+        width: 109px;
+        height: 51px;
+        border: 1px solid black;
+        border-radius: 5px;
+        &:hover {
+            background-color: #eff0f3;
+        }
+        &:hover a {
+            color: blue;
+        }
+    }
+    .profile_button {
+        margin-right: 0px !important;
+
+        & button {
+            margin-right: 0px;
+        }
+    }
+}
+
+.create_button {
+    font-size: 14px;
+    color: #52c41a;
+    padding: 4.5px;
+    border: 1px solid #52c41a;
+    border-radius: 5px;
+}

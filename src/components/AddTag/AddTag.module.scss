@@ -1,0 +1,36 @@
+.input_tag {
+    display: flex;
+    margin-top: 5px;
+    & input {
+        box-sizing: border-box;
+        width: 300px;
+        padding: 8px 12px 8px 12px;
+        border-radius: 4px;
+        background: #ffffff;
+        border: 1px solid #d9d9d9;
+
+        &:focus {
+            outline-color: #4889dd;
+
+            border: 1px solid #4889dd;
+        }
+    }
+}
+
+.btn_box button {
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 8px;
+    width: 136px;
+    margin-left: 17px;
+}
+
+.delete_tag_button {
+    color: red;
+    border-color: red;
+}
+
+.add_tag_button {
+    color: #1890ff;
+    border-color: 1890ff;
+}

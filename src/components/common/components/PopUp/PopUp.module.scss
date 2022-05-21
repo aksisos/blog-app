@@ -1,0 +1,85 @@
+.buttons_wrapper {
+    position: absolute;
+    top: 70px;
+    width: 200px;
+    & button {
+        border: 1px solid;
+        border-radius: 5px;
+        padding: 6px;
+        padding-left: 17px;
+        padding-right: 17px;
+    }
+    & .delete_button {
+        color: red;
+        margin-right: 12px;
+    }
+    & .edit_button {
+        color: #52c41a;
+    }
+}
+
+.modal {
+    background: #ffffff;
+    border-radius: 5px;
+    filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.15));
+
+    position: absolute;
+    height: 104px;
+    width: 240px;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    top: -5px;
+    left: 90px;
+    & div:nth-child(2) {
+        padding: 5px;
+        padding-left: 40px;
+    }
+    & div:nth-child(2)::before {
+        position: absolute;
+        content: "";
+        left: 20px;
+        top: 9px;
+        width: 14px;
+        height: 14px;
+        background: url("./exclamation-circle.svg") center;
+    }
+    & .buttons_wrapper {
+        position: absolute;
+        right: -87px;
+        top: 62px;
+        font-size: 14px;
+        & button {
+            padding: 3px 10px 3px 10px;
+        }
+        & button:first-of-type {
+            color: #595959;
+            background: #ffffff;
+            margin-right: 8px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+        }
+        & button:last-of-type {
+            color: #ffffff;
+            background: #1890ff;
+            border-radius: 4px;
+        }
+    }
+}
+
+.modal_arrow {
+    margin-top: 10%;
+}
+.modal_arrow {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -10px;
+    bottom: auto;
+    left: -10px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent #ffffff transparent transparent;
+}
