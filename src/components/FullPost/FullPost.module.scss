@@ -55,8 +55,10 @@ h2.post_title {
 
     & img {
         height: 46px;
+        width: 46px;
         padding-top: -10px;
         margin-left: 12px;
+        border-radius: 50%;
     }
 }
 
@@ -105,10 +107,15 @@ article.post_text {
     overflow-wrap: break-word;
 }
 
+.heart_red {
+    color: red !important;
+}
+
 .buttons_wrapper {
     position: absolute;
     top: 70px;
     width: 200px;
+    right: -34px;
     & button {
         border: 1px solid;
         border-radius: 5px;

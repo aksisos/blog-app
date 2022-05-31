@@ -86,7 +86,6 @@ export const SignUp = () => {
         placeholder="Email adress"
         {...registerForm('email', { ...signUpValidation.email })}
       />
-      {errors.email && <p>{errors.email.message}</p>}
       {formErrorMessage('email')}
       <span>Password</span>
       <input

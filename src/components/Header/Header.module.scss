@@ -1,5 +1,8 @@
 .blog_header {
+    max-width: 1440px;
     height: 80px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     align-items: center;
     padding-left: 22px;
@@ -38,6 +41,7 @@
         height: 46px;
         margin-left: 10px;
         margin-right: 27px;
+        border-radius: 50%;
     }
     & .log_out_button {
         margin-right: 0px;

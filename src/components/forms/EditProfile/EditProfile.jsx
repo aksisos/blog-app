@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
@@ -17,6 +17,7 @@ export const EditProfile = () => {
 
   const { serverErrors } = useSelector(clientState);
   const { user } = useSelector(userState);
+  const [ res, setRes ] = useState('');
 
   const userValues = {
     username: user.username,
@@ -38,7 +39,6 @@ export const EditProfile = () => {
 
   const editProfile = async (data) => {
     const res = await fetchRequest('user', 'PUT', user.token, data);
-
     return res;
   };
 
@@ -51,9 +51,12 @@ export const EditProfile = () => {
     userData.user = obj;
     const response = await editProfile(userData);
     const res = await response.json();
-
-    dispatch(setUser(res));
-    setToken(res.user);
+    if (res.user) {
+      dispatch(setUser(res));
+      setToken(res.user);
+      setRes('');
+    } 
+    setRes(res.errors.username);
   };
 
   const formErrorMessage = (formName) => {
@@ -77,20 +80,18 @@ export const EditProfile = () => {
       <input
         type="text"
         className={classNames(classes.input, {
-          [classes.red_input]:
-                        errors.username ||
-                        (serverErrors && serverErrors.username),
+          [classes.red_input]: errors.username || (serverErrors && serverErrors.username),
         })}
         placeholder="Username"
         {...register('username', { ...editProfileValidation.username })}
       />
+      <p>{res}</p>
       {formErrorMessage('username')}
       <span>Email adress</span>
       <input
         type="email"
         className={classNames(classes.input, {
-          [classes.red_input]:
-                        errors.email || (serverErrors && serverErrors.email),
+          [classes.red_input]: errors.email || (serverErrors && serverErrors.email),
         })}
         placeholder="Email adress"
         {...register('email', { ...editProfileValidation.email })}

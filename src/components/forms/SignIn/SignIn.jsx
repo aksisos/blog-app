@@ -62,6 +62,7 @@ export const SignIn = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
       <h4 className={classes.form_title}>Sign In</h4>
+      {formErrorMessage('email or password')}
       <span>Email adress</span>
       <input
         type="email"
@@ -73,7 +74,6 @@ export const SignIn = () => {
         placeholder="Email adress"
         {...register('email', { ...signInValidation.email })}
       />
-      {formErrorMessage('email or password')}
       <span>Password</span>
       <input
         name="password"

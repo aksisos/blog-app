@@ -12,8 +12,8 @@ import {
 } from '../../redux/actions/postsActions';
 import { dateFormat, getToken } from '../../utils/utils';
 import { fetchRequest } from '../../utils/requests';
-import PopUp from '../common/components/PopUp';
-import { Tags } from '../common/components/Tags/Tags';
+import PopUp from '../common/PopUp';
+import { Tags } from '../common/Tags/Tags';
 import { postsState } from '../../redux/selectors/postsSelectors';
 import { userState } from '../../redux/selectors/userSelectors';
 
@@ -138,7 +138,7 @@ export const FullPost = () => {
                     <button
                       className={classes.edit_button}
                       type="button">
-                    Edit post
+                    Edit
                     </button>
                   </Link>
                 </div>

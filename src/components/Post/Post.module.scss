@@ -53,9 +53,15 @@ h2.post_title {
 
     & img {
         height: 46px;
+        width: 46px;
         padding-top: -10px;
         margin-left: 12px;
+        border-radius: 50%;
     }
+}
+
+.heart_red {
+    color: red !important;
 }
 
 .post-like {
