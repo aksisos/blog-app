@@ -62,7 +62,6 @@ export const getFullPost = (slug) => async (dispatch) => {
     dispatch(setPost(res));
     return res;
   } catch (err) {
-    console.log(err.message);
     dispatch(errorInet(err.message));
     return err.message;
   }
