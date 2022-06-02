@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { Alert } from 'antd';
 
 import { register } from '../../../redux/actions/userActions';
 import { clientState } from '../../../redux/selectors/clientSelectors';
@@ -47,6 +48,20 @@ export const SignUp = () => {
     return undefined;
   });
 
+  const formErrorInet = () => {
+    if (serverErrors) {
+      return (
+        <Alert
+          message="Error"
+          description="oh it seems your internet connection is gone,
+           restore it and reload the page."
+          type="error"
+          showIcon
+        />
+      );
+    }
+  };
+
   const formErrorMessage = (formName) => {
     if (serverErrors) {
       if (serverErrors[formName]) {
@@ -64,6 +79,7 @@ export const SignUp = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
       <h4 className={classes.form_title}>Create new account</h4>
+      {formErrorInet()}
       <span>Username</span>
       <input
         type="text"

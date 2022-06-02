@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { HeartFilled, HeartOutlined } from '@ant-design/icons';
-import { Spin } from 'antd';
+import { Spin, Alert } from 'antd';
 
 import {
   getFullPost,
@@ -15,6 +15,7 @@ import { fetchRequest } from '../../utils/requests';
 import PopUp from '../common/PopUp';
 import { Tags } from '../common/Tags/Tags';
 import { postsState } from '../../redux/selectors/postsSelectors';
+import { clientState } from '../../redux/selectors/clientSelectors';
 import { userState } from '../../redux/selectors/userSelectors';
 
 import classes from './FullPost.module.scss';
@@ -23,7 +24,7 @@ export const FullPost = () => {
   const [popupVisible, setPopupVisibility] = useState(false);
 
   const dispatch = useDispatch();
-
+  const { serverErrors } = useSelector(clientState);
   const { post } = useSelector(postsState);
   const { user, auth } = useSelector(userState);
 
@@ -36,6 +37,20 @@ export const FullPost = () => {
   useEffect(() => {
     dispatch(getFullPost(slug));
   }, [slug]);
+
+  const formErrorInet = () => {
+    if (serverErrors) {
+      return (
+        <Alert
+          message="Error"
+          description="oh it seems your internet connection is gone,
+           restore it and reload the page."
+          type="error"
+          showIcon
+        />
+      );
+    }
+  };
 
   if (post && post.article) {
     const {
@@ -158,7 +173,7 @@ export const FullPost = () => {
 
   return (
     <div>
-      <Spin />
+      {serverErrors ? formErrorInet() : <Spin />}
     </div>
   );
 };

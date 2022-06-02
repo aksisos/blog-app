@@ -6,6 +6,8 @@ export const loadingEndType = 'LOADING_END';
 
 export const errorCatchType = 'ERROR_CATCH';
 
+export const errorInetType = 'ERROR_INET';
+
 export const setPostType = 'SET_POST';
 
 export const clearPostStateType = 'CLEAR_POST_STATE';

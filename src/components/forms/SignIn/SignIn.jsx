@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { Alert } from 'antd';
 
 import { login } from '../../../redux/actions/userActions';
 import { clientState } from '../../../redux/selectors/clientSelectors';
@@ -45,6 +46,19 @@ export const SignIn = () => {
     return undefined;
   });
 
+  const formErrorInet = () => {
+    if (serverErrors) {
+      return (
+        <Alert
+          message="Error"
+          description="oh it seems your internet connection is gone,
+           restore it and reload the page."
+          type="error"
+          showIcon
+        />
+      );
+    }
+  };
   const formErrorMessage = (formName) => {
     if (serverErrors) {
       if (serverErrors[formName]) {
@@ -58,11 +72,12 @@ export const SignIn = () => {
 
     return errors[formName] && <p>{errors[formName].message}</p>;
   };
-
+  
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
       <h4 className={classes.form_title}>Sign In</h4>
       {formErrorMessage('email or password')}
+      {formErrorInet()}
       <span>Email adress</span>
       <input
         type="email"

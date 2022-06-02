@@ -3,6 +3,7 @@ import {
   errorCatchType,
   loadingEndType,
   loadingStartType,
+  errorInetType
 } from '../action-types';
 
 const initialState = {
@@ -27,7 +28,11 @@ export const clientReducer = (state = initialState, action) => {
       ...state,
       serverErrors: action.payload.errors,
     };
-
+  case errorInetType:
+    return {
+      ...state,
+      serverErrors: action.payload,
+    };
   case clearErrorsType:
     return {
       ...state,

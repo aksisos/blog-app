@@ -16,7 +16,7 @@ export const AddTag = () => {
   const location = useLocation();
   const isEdit = location.pathname.split('/').pop() === 'edit';
 
-  const tagList = () => post && isEdit
+  const tagList = () => post && post.article && isEdit
     ? post.article.tagList.map((el) => ({ tag: el }))
     : [{ tag: '' }];
 

@@ -8,7 +8,7 @@ import {
   updateTagListType,
 } from '../action-types';
 
-import { errorCatch } from './clientActions';
+import { errorCatch, errorInet } from './clientActions';
 
 export const setPostsArray = (payload) => ({
   type: setPostsArrayType,
@@ -55,12 +55,17 @@ export const getFullPost = (slug) => async (dispatch) => {
       },
     }
     : {};
-
-  const response = await fetch(`${apiUrl}/articles/${slug}`, fetchParams);
-  const res = await response.json();
-
-  dispatch(setPost(res));
-  return res;
+  try {
+    const response = await fetch(`${apiUrl}/articles/${slug}`, fetchParams);
+    const res = await response.json();
+  
+    dispatch(setPost(res));
+    return res;
+  } catch (err) {
+    console.log(err.message);
+    dispatch(errorInet(err.message));
+    return err.message;
+  }
 };
 
 export const favoriteArticle = async (slug, auth) => {

@@ -16,9 +16,9 @@ export const EditPost = () => {
   const { tagList, post } = useSelector(postsState);
 
   const postValues = {
-    title: post.article.title,
-    description: post.article.description,
-    text: post.article.body,
+    title: post && post.article ? post.article.title : null,
+    description: post && post.article ? post.article.description : null,
+    text: post && post.article ? post.article.body : null,
   };
 
   const {
@@ -29,6 +29,7 @@ export const EditPost = () => {
   } = useForm({
     defaultValues: postValues,
   });
+  
   const navigate = useNavigate();
   const goHome = () => navigate('/');
   const password = useRef({});

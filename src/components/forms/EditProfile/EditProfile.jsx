@@ -17,7 +17,7 @@ export const EditProfile = () => {
 
   const { serverErrors } = useSelector(clientState);
   const { user } = useSelector(userState);
-  const [ res, setRes ] = useState('');
+  const [ ress, setRess ] = useState('');
 
   const userValues = {
     username: user.username,
@@ -54,9 +54,9 @@ export const EditProfile = () => {
     if (res.user) {
       dispatch(setUser(res));
       setToken(res.user);
-      setRes('');
+      setRess('');
     } 
-    setRes(res.errors.username);
+    setRess(res.errors.username);
   };
 
   const formErrorMessage = (formName) => {
@@ -80,12 +80,12 @@ export const EditProfile = () => {
       <input
         type="text"
         className={classNames(classes.input, {
-          [classes.red_input]: errors.username || (serverErrors && serverErrors.username),
+          [classes.red_input]: errors.username || (serverErrors && serverErrors.username) || ress,
         })}
         placeholder="Username"
         {...register('username', { ...editProfileValidation.username })}
       />
-      <p>{res}</p>
+      <p>{ress}</p>
       {formErrorMessage('username')}
       <span>Email adress</span>
       <input
@@ -96,7 +96,6 @@ export const EditProfile = () => {
         placeholder="Email adress"
         {...register('email', { ...editProfileValidation.email })}
       />
-      {errors.email && <p>{errors.email.message}</p>}
       {formErrorMessage('email')}
       <span>New password</span>
       <input
