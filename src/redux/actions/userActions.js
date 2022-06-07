@@ -1,5 +1,5 @@
 /* eslint-disable no-prototype-builtins */
-import { apiUrl } from '../../config';
+import { fetchRequest, logReg } from '../../services/services';
 import { setToken } from '../../utils/utils';
 import { authToggleType, logoutType, setUserType } from '../action-types';
 
@@ -20,14 +20,11 @@ export const authToggle = (payload) => ({ type: authToggleType, payload });
 export const register = (formData) => async (dispatch) => {
   try {
     dispatch(loadingStart());
-    const response = await fetch(`${apiUrl}/users`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify(formData),
-    });
+    const response = await logReg(
+      'users',
+      'POST',
+      formData
+    );
     const res = await response.json();
     if (res.hasOwnProperty('errors')) {
       dispatch(errorCatch(res));
@@ -51,14 +48,11 @@ export const login = (formData) => async (dispatch) => {
   try {
     dispatch(clearErrors());
     dispatch(loadingStart());
-    const response = await fetch(`${apiUrl}/users/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify(formData),
-    });
+    const response = await logReg(
+      'users/login',
+      'POST',
+      formData
+    );
     const res = await response.json();
     
     if (res.hasOwnProperty('errors')) {
@@ -79,12 +73,11 @@ export const login = (formData) => async (dispatch) => {
 
 export const getUserByToken = (token) => async (dispatch) => {
   dispatch(loadingStart());
-  const response = await fetch(`${apiUrl}/user`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Token ${token}`,
-    },
-  });
+  const response = await fetchRequest(
+    'user',
+    'GET',
+    token
+  );
   const res = await response.json();
 
   dispatch(setUser(res));

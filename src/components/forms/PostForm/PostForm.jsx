@@ -1,33 +1,69 @@
 import classNames from 'classnames';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { postsState } from '../../../redux/selectors/postsSelectors';
-import { newPostValidation } from '../../../utils/formValidationRules';
-import { fetchRequest } from '../../../utils/requests';
+import { postFormValidation } from '../../../utils/formValidationRules';
+import { fetchRequest } from '../../../services/services';
 import { getToken } from '../../../utils/utils';
 import AddTag from '../../AddTag';
 
-import classes from './NewPost.module.scss';
+import classes from './PostForm.module.scss';
 
-export const NewPost = () => {
-  const { tagList } = useSelector(postsState);
+export const PostForm = () => {
+  const [ isEdit, setIsEdit ] = useState(false);
+
+  if (useLocation().pathname !== '/new-article') {
+    useEffect(() => {
+      setIsEdit(true);
+    }, []);
+  } else {
+    useEffect(() => {
+      setIsEdit(false);
+    }, []);
+  }
+  const { tagList, post } = useSelector(postsState);
+
+  const postValues = {
+    title: post && post.article ? post.article.title : null,
+    description: post && post.article ? post.article.description : null,
+    text: post && post.article ? post.article.body : null,
+  };
 
   const {
     register,
     formState: { errors },
     handleSubmit,
     watch,
-  } = useForm({});
+  } = useForm({
+    defaultValues: postValues,
+  });
+
   const navigate = useNavigate();
   const goHome = () => navigate('/');
   const password = useRef({});
   password.current = watch('password', '');
 
   const postArticle = async (article) => {
-    const res = await fetchRequest('articles', 'POST', getToken(), article);
+    const res = await fetchRequest(
+      'articles', 
+      'POST', 
+      getToken(), 
+      article
+    );
+
+    return res;
+  };
+
+  const editPost = async (data) => {
+    const res = await fetchRequest(
+      `articles/${post.article.slug}`,
+      'PUT',
+      getToken(),
+      data
+    );
 
     return res;
   };
@@ -36,18 +72,18 @@ export const NewPost = () => {
     const articleData = {
       article: {
         title: data.title,
-        description: data.desc,
+        description: data.description,
         body: data.text,
-        tagList: tagList ? tagList.map((el) => el.tag) : '',
+        tagList: tagList ? tagList.map((el) => el.tag) : post.article.tagList,
       },
     };
-    await postArticle(articleData);
+    isEdit ? editPost(articleData) : await postArticle(articleData);
     goHome();
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-      <h4 className={classes.form_title}>Create new article</h4>
+      {isEdit ? <h4 className={classes.form_title}>Edit article</h4> : <h4 className={classes.form_title}>Create new article</h4>}
       <span>Title</span>
       <input
         type="title"
@@ -55,7 +91,7 @@ export const NewPost = () => {
           [classes.red_input]: errors.title,
         })}
         placeholder="Title"
-        {...register('title', { ...newPostValidation.title })}
+        {...register('title', { ...postFormValidation.title })}
       />
       {errors.title && <p>{errors.title.message}</p>}
       <span>Short description</span>
@@ -66,7 +102,7 @@ export const NewPost = () => {
         })}
         type="title"
         placeholder="Description"
-        {...register('desc', { ...newPostValidation.description })}
+        {...register('description', { ...postFormValidation.description })}
       />
       {errors.desc && <p>{errors.desc.message}</p>}
       <span>Text</span>
@@ -77,7 +113,7 @@ export const NewPost = () => {
         })}
         type="text"
         placeholder="Text"
-        {...register('text', { ...newPostValidation.text })}
+        {...register('text', { ...postFormValidation.text })}
       />
       {errors.text && <p>{errors.text.message}</p>}
       <span>Tags</span>

@@ -11,12 +11,13 @@ import {
   unfavoriteArticle,
 } from '../../redux/actions/postsActions';
 import { dateFormat, getToken } from '../../utils/utils';
-import { fetchRequest } from '../../utils/requests';
+import { fetchRequest } from '../../services/services';
 import PopUp from '../common/PopUp';
 import { Tags } from '../common/Tags/Tags';
 import { postsState } from '../../redux/selectors/postsSelectors';
 import { clientState } from '../../redux/selectors/clientSelectors';
 import { userState } from '../../redux/selectors/userSelectors';
+import { URLjpg } from '../../config';
 
 import classes from './FullPost.module.scss';
 
@@ -127,12 +128,8 @@ export const FullPost = () => {
               </div>
               <img
                 ref={imgRef}
-                src={
-                  author.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'
-                }
-                onError={() => {
-                  imgRef.current.src = 'https://static.productionready.io/images/smiley-cyrus.jpg';
-                }}
+                src={author.image || URLjpg}
+                onError={() => {imgRef.current.src = URLjpg;}}
                 alt="av"
               />
               {auth && author.username === user.username && (

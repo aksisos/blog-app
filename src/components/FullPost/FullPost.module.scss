@@ -126,8 +126,16 @@ article.post_text {
     & .delete_button {
         color: red;
         margin-right: 12px;
+        &:hover {
+            background-color: red;
+            color: #ffffff;
+        }
     }
     & .edit_button {
         color: #52c41a;
+        &:hover {
+            background-color: #52c41a;
+            color: #ffffff;
+        }
     }
 }

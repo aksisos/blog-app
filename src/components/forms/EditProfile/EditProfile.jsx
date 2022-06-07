@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 
-import { fetchRequest } from '../../../utils/requests';
+import { fetchRequest } from '../../../services/services';
 import { setUser } from '../../../redux/actions/userActions';
 import { setToken } from '../../../utils/utils';
 import { clientState } from '../../../redux/selectors/clientSelectors';

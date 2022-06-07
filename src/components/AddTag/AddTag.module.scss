@@ -28,9 +28,17 @@
 .delete_tag_button {
     color: red;
     border-color: red;
+    &:hover {
+        color: #ffffff;
+        background-color: red;
+    }
 }
 
 .add_tag_button {
     color: #1890ff;
-    border-color: 1890ff;
+    border-color: #1890ff;
+    &:hover {
+        color: #ffffff;
+        background-color: #1890ff;
+    }
 }

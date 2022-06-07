@@ -24,15 +24,18 @@ h2.post_title {
     font-style: normal;
     font-weight: normal;
     font-size: 20px;
-    line-height: 20px;
+    line-height: 23px;
     align-items: center;
-    color: #1890ff !important;
-    margin-bottom: -2px !important;
+    color: #1890ff;
+    margin-bottom: -2px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 600px;
     margin-right: 13px;
+    &:hover {
+        color: blue;
+    }
 }
 
 .right {
@@ -64,13 +67,18 @@ h2.post_title {
     color: red !important;
 }
 
-.post-like {
-    font-size: 12px;
+.post_like {
+    font-size: 15px;
     vertical-align: top;
     outline: none;
     border: none;
     background-color: white;
     cursor: pointer;
+    margin-bottom: 5px;
+    transition: 0.5s;
+    &:hover {
+        transform: scale(1.2);
+    }
 }
 
 .article-likes img {
@@ -93,5 +101,12 @@ article.post_text {
     overflow: hidden;
     & p {
         margin-bottom: 0px;
+    }
+}
+
+.button_hover {
+    transition: 1s;
+    &:hover {
+        transform: scale(1.1);
     }
 }

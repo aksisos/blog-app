@@ -1,15 +1,3 @@
-export const editPostValidation = {
-  title: {
-    required: 'Enter title',
-  },
-  description: {
-    required: 'Enter description',
-  },
-  text: {
-    required: 'Enter description',
-  },
-};
-
 export const editProfileValidation = {
   username: {
     required: 'Enter username',
@@ -50,12 +38,12 @@ export const editProfileValidation = {
   },
 };
 
-export const newPostValidation = {
+export const postFormValidation = {
   title: {
     required: 'Enter title',
   },
 
-  desc: {
+  description: {
     required: 'Enter description',
   },
 

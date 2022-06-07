@@ -1,9 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { logout, authToggle } from '../../redux/actions/userActions';
+import { getPosts } from '../../redux/actions/postsActions';
 import { userState } from '../../redux/selectors/userSelectors';
+import { URLjpg } from '../../config';
 
 import classes from './Header.module.scss';
 
@@ -23,11 +25,19 @@ export const Header = () => {
     }
   };
 
+  useEffect(() => {
+    const asyncWrapper = async () => {
+      await dispatch(getPosts());
+    };
+    asyncWrapper();
+
+  }, [auth]);
+
   const userInfoToggle = user ? (
     <>
       <Link to="/new-article">
         <button type="button" className={classes.create_button}>
-                    Create article
+          Create article
         </button>
       </Link>
       <button
@@ -40,14 +50,8 @@ export const Header = () => {
           {
             <img
               ref={imgRef}
-              src={
-                user.image ||
-                                'https://static.productionready.io/images/smiley-cyrus.jpg'
-              }
-              onError={() => {
-                imgRef.current.src =
-                                    'https://static.productionready.io/images/smiley-cyrus.jpg';
-              }}
+              src={user.image || URLjpg}
+              onError={() => {imgRef.current.src =URLjpg;}}
               alt="av"
               className={classes.user_image}
             />

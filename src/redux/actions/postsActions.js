@@ -1,5 +1,4 @@
-import { apiUrl } from '../../config';
-import { fetchRequest } from '../../utils/requests';
+import { fetchRequest } from '../../services/services';
 import { getToken } from '../../utils/utils';
 import {
   clearPostStateType,
@@ -25,17 +24,11 @@ export const updateTagList = (payload) => ({
 });
 
 export const getPosts = (page) => async (dispatch) => {
-  const fetchParams = getToken()
-    ? {
-      headers: {
-        Authorization: `Token ${getToken()}`,
-      },
-    }
-    : {};
   try {
-    const response = await fetch(
-      `${apiUrl}articles?limit=5&offset=${(page - 1) * 5}`,
-      fetchParams
+    const response = await fetchRequest(
+      `articles?limit=5&offset=${(page - 1) * 5}`,
+      'GET',
+      getToken()
     );
 
     const res = await response.json();
@@ -48,15 +41,12 @@ export const getPosts = (page) => async (dispatch) => {
 };
 
 export const getFullPost = (slug) => async (dispatch) => {
-  const fetchParams = getToken()
-    ? {
-      headers: {
-        Authorization: `Token ${getToken()}`,
-      },
-    }
-    : {};
   try {
-    const response = await fetch(`${apiUrl}/articles/${slug}`, fetchParams);
+    const response = await fetchRequest(
+      `articles/${slug}`,
+      'GET',
+      getToken()
+    );
     const res = await response.json();
   
     dispatch(setPost(res));

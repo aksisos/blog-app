@@ -11,6 +11,7 @@ import {
 } from '../../redux/actions/postsActions';
 import { Tags } from '../common/Tags/Tags';
 import { userState } from '../../redux/selectors/userSelectors';
+import { URLjpg } from '../../config';
 
 import classes from './Post.module.scss';
 
@@ -78,8 +79,8 @@ export const Post = ({
           </div>
           <img
             ref={imgRef}
-            src={ author.image || 'https://static.productionready.io/images/smiley-cyrus.jpg' }
-            onError={() => { imgRef.current.src = 'https://static.productionready.io/images/smiley-cyrus.jpg'; }}
+            src={author.image || URLjpg}
+            onError={() => {imgRef.current.src = URLjpg;}}
             alt="av"
           />
         </div>
