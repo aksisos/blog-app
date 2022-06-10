@@ -3,14 +3,17 @@ import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 
-import { fetchRequest } from '../../../services/services';
+import { Service } from '../../../services/services';
 import { setUser } from '../../../redux/actions/userActions';
 import { setToken } from '../../../utils/utils';
 import { clientState } from '../../../redux/selectors/clientSelectors';
 import { userState } from '../../../redux/selectors/userSelectors';
 import { editProfileValidation } from '../../../utils/formValidationRules';
 
+
 import classes from './EditProfile.module.scss';
+
+const api = new Service();
 
 export const EditProfile = () => {
   const dispatch = useDispatch();
@@ -38,7 +41,7 @@ export const EditProfile = () => {
   password.current = watch('password', '');
 
   const editProfile = async (data) => {
-    const res = await fetchRequest('user', 'PUT', user.token, data);
+    const res = await api.editProfileFetch(data);
     return res;
   };
 

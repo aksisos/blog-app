@@ -20,4 +20,8 @@ export const clearErrorsType = 'CLEAR_ERRORS';
 
 export const updateTagListType = 'UPDATE_TAG_LIST';
 
+export const trueEditType = 'TRUE_EDIT';
+
+export const falseEditType = 'FALSE_EDIT';
+
 export const authToggleType = 'AUTH_TOGGLE';

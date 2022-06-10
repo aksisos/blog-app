@@ -1,5 +1,4 @@
-import { fetchRequest } from '../../services/services';
-import { getToken } from '../../utils/utils';
+import { Service } from '../../services/services';
 import {
   clearPostStateType,
   setPostsArrayType,
@@ -8,6 +7,8 @@ import {
 } from '../action-types';
 
 import { errorCatch, errorInet } from './clientActions';
+
+const api = new Service();
 
 export const setPostsArray = (payload) => ({
   type: setPostsArrayType,
@@ -25,11 +26,7 @@ export const updateTagList = (payload) => ({
 
 export const getPosts = (page) => async (dispatch) => {
   try {
-    const response = await fetchRequest(
-      `articles?limit=5&offset=${(page - 1) * 5}`,
-      'GET',
-      getToken()
-    );
+    const response = await api.getPostsFetch(page);
 
     const res = await response.json();
     dispatch(setPostsArray(res));
@@ -42,11 +39,7 @@ export const getPosts = (page) => async (dispatch) => {
 
 export const getFullPost = (slug) => async (dispatch) => {
   try {
-    const response = await fetchRequest(
-      `articles/${slug}`,
-      'GET',
-      getToken()
-    );
+    const response = await api.getFullPostFetch(slug);
     const res = await response.json();
   
     dispatch(setPost(res));
@@ -57,13 +50,9 @@ export const getFullPost = (slug) => async (dispatch) => {
   }
 };
 
-export const favoriteArticle = async (slug, auth) => {
+export const favoriteArticle = async (slug) => {
   try {
-    const response = await fetchRequest(
-      `articles/${slug}/favorite`,
-      'POST',
-      auth
-    );
+    const response = await api.favoriteArticleFetch(slug);
 
     if (!response.ok) {
       throw new Error();
@@ -76,13 +65,9 @@ export const favoriteArticle = async (slug, auth) => {
   }
 };
 
-export const unfavoriteArticle = async (slug, auth) => {
+export const unfavoriteArticle = async (slug) => {
   try {
-    const response = await fetchRequest(
-      `articles/${slug}/favorite`,
-      'DELETE',
-      auth
-    );
+    const response = await api.unfavoriteArticleFetch(slug);
 
     if (!response.ok) {
       throw new Error();

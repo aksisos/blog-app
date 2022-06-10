@@ -1,5 +1,5 @@
 /* eslint-disable no-prototype-builtins */
-import { fetchRequest, logReg } from '../../services/services';
+import { Service } from '../../services/services';
 import { setToken } from '../../utils/utils';
 import { authToggleType, logoutType, setUserType } from '../action-types';
 
@@ -17,15 +17,14 @@ export const logout = () => ({ type: logoutType });
 
 export const authToggle = (payload) => ({ type: authToggleType, payload });
 
+const api = new Service();
+
 export const register = (formData) => async (dispatch) => {
   try {
     dispatch(loadingStart());
-    const response = await logReg(
-      'users',
-      'POST',
-      formData
-    );
+    const response = await api.regUser(formData);
     const res = await response.json();
+
     if (res.hasOwnProperty('errors')) {
       dispatch(errorCatch(res));
     }
@@ -48,11 +47,7 @@ export const login = (formData) => async (dispatch) => {
   try {
     dispatch(clearErrors());
     dispatch(loadingStart());
-    const response = await logReg(
-      'users/login',
-      'POST',
-      formData
-    );
+    const response = await api.logUser(formData);
     const res = await response.json();
     
     if (res.hasOwnProperty('errors')) {
@@ -63,6 +58,7 @@ export const login = (formData) => async (dispatch) => {
       setToken(res.user);
       dispatch(authToggle(true));
     }
+    
     dispatch(loadingEnd());
     return res;
   } catch (err) {
@@ -73,7 +69,7 @@ export const login = (formData) => async (dispatch) => {
 
 export const getUserByToken = (token) => async (dispatch) => {
   dispatch(loadingStart());
-  const response = await fetchRequest(
+  const response = await api.fetchRequest(
     'user',
     'GET',
     token

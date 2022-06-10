@@ -1,29 +1,24 @@
 import classNames from 'classnames';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
+import { falseEdit } from '../../../redux/actions/clientActions';
 import { postsState } from '../../../redux/selectors/postsSelectors';
+import { clientState } from '../../../redux/selectors/clientSelectors';
 import { postFormValidation } from '../../../utils/formValidationRules';
-import { fetchRequest } from '../../../services/services';
-import { getToken } from '../../../utils/utils';
+import { Service } from '../../../services/services';
 import AddTag from '../../AddTag';
 
 import classes from './PostForm.module.scss';
 
-export const PostForm = () => {
-  const [ isEdit, setIsEdit ] = useState(false);
+const api = new Service();
 
-  if (useLocation().pathname !== '/new-article') {
-    useEffect(() => {
-      setIsEdit(true);
-    }, []);
-  } else {
-    useEffect(() => {
-      setIsEdit(false);
-    }, []);
-  }
+export const PostForm = () => {
+  const dispatch = useDispatch();
+  const { isEdit } = useSelector(clientState);
+
   const { tagList, post } = useSelector(postsState);
 
   const postValues = {
@@ -47,23 +42,13 @@ export const PostForm = () => {
   password.current = watch('password', '');
 
   const postArticle = async (article) => {
-    const res = await fetchRequest(
-      'articles', 
-      'POST', 
-      getToken(), 
-      article
-    );
+    const res = await api.postArticleFetch(article);
 
     return res;
   };
 
   const editPost = async (data) => {
-    const res = await fetchRequest(
-      `articles/${post.article.slug}`,
-      'PUT',
-      getToken(),
-      data
-    );
+    const res = await api.editPostFetch(data, post.article.slug);
 
     return res;
   };
@@ -78,6 +63,7 @@ export const PostForm = () => {
       },
     };
     isEdit ? editPost(articleData) : await postArticle(articleData);
+    dispatch(falseEdit());
     goHome();
   };
 

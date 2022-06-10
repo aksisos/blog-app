@@ -3,12 +3,15 @@ import {
   errorCatchType,
   loadingEndType,
   loadingStartType,
-  errorInetType
+  errorInetType,
+  trueEditType,
+  falseEditType
 } from '../action-types';
 
 const initialState = {
   isLoading: false,
   serverErrors: null,
+  isEdit: false,
 };
 
 export const clientReducer = (state = initialState, action) => {
@@ -22,6 +25,16 @@ export const clientReducer = (state = initialState, action) => {
     return {
       ...state,
       isLoading: false,
+    }; 
+  case trueEditType:
+    return {
+      ...state,
+      isEdit: true,
+    };
+  case falseEditType:
+    return {
+      ...state,
+      isEdit: false,
     };
   case errorCatchType:
     return {

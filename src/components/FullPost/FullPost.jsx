@@ -10,16 +10,18 @@ import {
   favoriteArticle,
   unfavoriteArticle,
 } from '../../redux/actions/postsActions';
-import { dateFormat, getToken } from '../../utils/utils';
-import { fetchRequest } from '../../services/services';
+import { trueEdit } from '../../redux/actions/clientActions';
+import { dateFormat } from '../../utils/utils';
+import { Service, URLjpg } from '../../services/services';
 import PopUp from '../common/PopUp';
 import { Tags } from '../common/Tags/Tags';
 import { postsState } from '../../redux/selectors/postsSelectors';
 import { clientState } from '../../redux/selectors/clientSelectors';
 import { userState } from '../../redux/selectors/userSelectors';
-import { URLjpg } from '../../config';
 
 import classes from './FullPost.module.scss';
+
+const api = new Service();
 
 export const FullPost = () => {
   const [popupVisible, setPopupVisibility] = useState(false);
@@ -74,11 +76,7 @@ export const FullPost = () => {
     };
 
     const deletePost = async () => {
-      await fetchRequest(
-        `articles/${post.article.slug}`,
-        'DELETE',
-        getToken()
-      );
+      await api.deletePostFetch(post.article.slug);
       goHome();
     };
 
@@ -95,6 +93,11 @@ export const FullPost = () => {
         dispatch(getFullPost(slug));
       }
     };
+
+    const edit = async () => {
+      dispatch(trueEdit());
+    };
+
     return (
       <div>
         <section className={classes.post}>
@@ -148,6 +151,7 @@ export const FullPost = () => {
                   )}
                   <Link to="edit">
                     <button
+                      onClick={edit}
                       className={classes.edit_button}
                       type="button">
                     Edit
