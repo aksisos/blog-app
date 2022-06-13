@@ -4,7 +4,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import PostList from './components/PostList';
 import FullPost from './components/FullPost';
-import { getUserByToken } from './redux/actions/userActions';
+import { userByToken } from './redux/actions/userActions';
 import 'antd/dist/antd.min.css';
 import Header from './components/Header';
 import SignUpForm from './components/forms/SignUp';
@@ -22,7 +22,7 @@ const App = () => {
 
   useEffect(() => {
     if (getToken()) {
-      dispatch(getUserByToken(getToken()));
+      dispatch(userByToken());
     }
   }, []);
 

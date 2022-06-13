@@ -1,5 +1,5 @@
 /* eslint-disable no-prototype-builtins */
-import { Service } from '../../services/services';
+import { BlogService } from '../../services/blogService';
 import { setToken } from '../../utils/utils';
 import { authToggleType, logoutType, setUserType } from '../action-types';
 
@@ -17,26 +17,25 @@ export const logout = () => ({ type: logoutType });
 
 export const authToggle = (payload) => ({ type: authToggleType, payload });
 
-const api = new Service();
+const blogService = new BlogService();
 
 export const register = (formData) => async (dispatch) => {
   try {
     dispatch(loadingStart());
-    const response = await api.regUser(formData);
-    const res = await response.json();
+    const response = await blogService.setRegister(formData);
 
-    if (res.hasOwnProperty('errors')) {
-      dispatch(errorCatch(res));
+    if (response.hasOwnProperty('errors')) {
+      dispatch(errorCatch(response));
     }
-    if (!res.hasOwnProperty('errors')) {
-      dispatch(setUser(res));
-      setToken(res.user);
+    if (!response.hasOwnProperty('errors')) {
+      dispatch(setUser(response));
+      setToken(response.user);
       dispatch(authToggle(true));
       dispatch(clearErrors());
     }
   
     dispatch(loadingEnd());
-    return res;
+    return response;
   } catch (err) {
     dispatch(errorInet(err.message));
     return err.message;
@@ -47,38 +46,32 @@ export const login = (formData) => async (dispatch) => {
   try {
     dispatch(clearErrors());
     dispatch(loadingStart());
-    const response = await api.logUser(formData);
-    const res = await response.json();
+    const response = await blogService.setLogin(formData);
     
-    if (res.hasOwnProperty('errors')) {
-      dispatch(errorCatch(res));
+    if (response.hasOwnProperty('errors')) {
+      dispatch(errorCatch(response));
     }
-    if (!res.hasOwnProperty('errors')) {
-      dispatch(setUser(res));
-      setToken(res.user);
+    if (!response.hasOwnProperty('errors')) {
+      dispatch(setUser(response));
+      setToken(response.user);
       dispatch(authToggle(true));
     }
     
     dispatch(loadingEnd());
-    return res;
+    return response;
   } catch (err) {
     dispatch(errorInet(err.message));
     return err.message;
   }
 };
 
-export const getUserByToken = (token) => async (dispatch) => {
+export const userByToken = () => async (dispatch) => {
   dispatch(loadingStart());
-  const response = await api.fetchRequest(
-    'user',
-    'GET',
-    token
-  );
-  const res = await response.json();
+  const response = await blogService.getUserByToken();
 
-  dispatch(setUser(res));
+  dispatch(setUser(response));
   dispatch(loadingEnd());
 
   dispatch(authToggle(true));
-  return res;
+  return response;
 };

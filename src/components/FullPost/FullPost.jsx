@@ -12,7 +12,7 @@ import {
 } from '../../redux/actions/postsActions';
 import { trueEdit } from '../../redux/actions/clientActions';
 import { dateFormat } from '../../utils/utils';
-import { Service, URLjpg } from '../../services/services';
+import { BlogService, URLjpg } from '../../services/blogService';
 import PopUp from '../common/PopUp';
 import { Tags } from '../common/Tags/Tags';
 import { postsState } from '../../redux/selectors/postsSelectors';
@@ -21,7 +21,7 @@ import { userState } from '../../redux/selectors/userSelectors';
 
 import classes from './FullPost.module.scss';
 
-const api = new Service();
+const blogService = new BlogService();
 
 export const FullPost = () => {
   const [popupVisible, setPopupVisibility] = useState(false);
@@ -76,7 +76,7 @@ export const FullPost = () => {
     };
 
     const deletePost = async () => {
-      await api.deletePostFetch(post.article.slug);
+      await blogService.setDeletePost(post.article.slug);
       goHome();
     };
 

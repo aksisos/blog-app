@@ -1,4 +1,4 @@
-import { Service } from '../../services/services';
+import { BlogService } from '../../services/blogService';
 import {
   clearPostStateType,
   setPostsArrayType,
@@ -8,7 +8,7 @@ import {
 
 import { errorCatch, errorInet } from './clientActions';
 
-const api = new Service();
+const blogService = new BlogService();
 
 export const setPostsArray = (payload) => ({
   type: setPostsArrayType,
@@ -26,11 +26,10 @@ export const updateTagList = (payload) => ({
 
 export const getPosts = (page) => async (dispatch) => {
   try {
-    const response = await api.getPostsFetch(page);
+    const response = await blogService.getPosts(page);
 
-    const res = await response.json();
-    dispatch(setPostsArray(res));
-    return res;
+    dispatch(setPostsArray(response));
+    return response;
   } catch (err) {
     dispatch(errorCatch(err));
     return err.message;
@@ -39,11 +38,10 @@ export const getPosts = (page) => async (dispatch) => {
 
 export const getFullPost = (slug) => async (dispatch) => {
   try {
-    const response = await api.getFullPostFetch(slug);
-    const res = await response.json();
+    const response = await blogService.getFullPost(slug);
   
-    dispatch(setPost(res));
-    return res;
+    dispatch(setPost(response));
+    return response;
   } catch (err) {
     dispatch(errorInet(err.message));
     return err.message;
@@ -52,13 +50,13 @@ export const getFullPost = (slug) => async (dispatch) => {
 
 export const favoriteArticle = async (slug) => {
   try {
-    const response = await api.favoriteArticleFetch(slug);
+    const response = await blogService.setFavoriteArticle(slug);
 
     if (!response.ok) {
       throw new Error();
     }
 
-    return response.json();
+    return response;
   } catch (err) {
     alert('Authentication required');
     return err.message;
@@ -67,13 +65,13 @@ export const favoriteArticle = async (slug) => {
 
 export const unfavoriteArticle = async (slug) => {
   try {
-    const response = await api.unfavoriteArticleFetch(slug);
+    const response = await blogService.setUnfavoriteArticle(slug);
 
     if (!response.ok) {
       throw new Error();
     }
 
-    return response.json();
+    return response;
   } catch (err) {
     alert('Authentication required');
     return err.message;

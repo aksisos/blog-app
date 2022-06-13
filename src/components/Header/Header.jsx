@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { logout, authToggle } from '../../redux/actions/userActions';
 import { getPosts } from '../../redux/actions/postsActions';
 import { userState } from '../../redux/selectors/userSelectors';
-import { URLjpg } from '../../services/services';
+import { URLjpg } from '../../services/blogService';
 
 import classes from './Header.module.scss';
 

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 
-import { Service } from '../../../services/services';
+import { BlogService } from '../../../services/blogService';
 import { setUser } from '../../../redux/actions/userActions';
 import { setToken } from '../../../utils/utils';
 import { clientState } from '../../../redux/selectors/clientSelectors';
@@ -13,7 +13,7 @@ import { editProfileValidation } from '../../../utils/formValidationRules';
 
 import classes from './EditProfile.module.scss';
 
-const api = new Service();
+const blogService = new BlogService();
 
 export const EditProfile = () => {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ export const EditProfile = () => {
   password.current = watch('password', '');
 
   const editProfile = async (data) => {
-    const res = await api.editProfileFetch(data);
+    const res = await blogService.setEditProfile(data);
     return res;
   };
 
@@ -53,13 +53,12 @@ export const EditProfile = () => {
     const userData = {};
     userData.user = obj;
     const response = await editProfile(userData);
-    const res = await response.json();
-    if (res.user) {
-      dispatch(setUser(res));
-      setToken(res.user);
+    if (response.user) {
+      dispatch(setUser(response));
+      setToken(response.user);
       setRess('');
     } 
-    setRess(res.errors.username);
+    setRess(response.errors.username);
   };
 
   const formErrorMessage = (formName) => {

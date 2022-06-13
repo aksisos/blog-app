@@ -11,7 +11,7 @@ import {
 } from '../../redux/actions/postsActions';
 import { Tags } from '../common/Tags/Tags';
 import { userState } from '../../redux/selectors/userSelectors';
-import { URLjpg } from '../../services/services';
+import { URLjpg } from '../../services/blogService';
 
 import classes from './Post.module.scss';
 

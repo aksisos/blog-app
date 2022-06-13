@@ -8,12 +8,12 @@ import { falseEdit } from '../../../redux/actions/clientActions';
 import { postsState } from '../../../redux/selectors/postsSelectors';
 import { clientState } from '../../../redux/selectors/clientSelectors';
 import { postFormValidation } from '../../../utils/formValidationRules';
-import { Service } from '../../../services/services';
+import { BlogService } from '../../../services/blogService';
 import AddTag from '../../AddTag';
 
 import classes from './PostForm.module.scss';
 
-const api = new Service();
+const blogService = new BlogService();
 
 export const PostForm = () => {
   const dispatch = useDispatch();
@@ -42,13 +42,13 @@ export const PostForm = () => {
   password.current = watch('password', '');
 
   const postArticle = async (article) => {
-    const res = await api.postArticleFetch(article);
+    const res = await blogService.setPostArticle(article);
 
     return res;
   };
 
   const editPost = async (data) => {
-    const res = await api.editPostFetch(data, post.article.slug);
+    const res = await blogService.setEditPost(data, post.article.slug);
 
     return res;
   };
